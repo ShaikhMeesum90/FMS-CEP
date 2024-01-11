@@ -1,74 +1,67 @@
+#include <iostream>
+
+class SmartHomeSystem {
+public:
+    double GetCurrentTemperature() const {
+        // Replace this with the actual implementation to get the current temperature
+        return 25.0;
+    }
+
+    unsigned int GetBrightness() const {
+        // Replace this with the actual implementation to get the current brightness
+        return 50;
+    }
+
+    bool IsSecuritySystemArmed() const {
+        // Replace this with the actual implementation to check if the security system is armed
+        return false;
+    }
+
+    void PerformSmartHomeOperations() {
+        // Replace this with the actual implementation of smart home operations
+        // For example, you can simulate changing the temperature, adjusting brightness, etc.
+        std::cout << "Performing smart home operations..." << std::endl;
+    }
+
+    // ... rest of the class
+};
+
 class SmartHomeSystemTester {
 public:
-    static void TestTemperatureControl() {
-        try {
-            TemperatureSensor sensor("DHT22", 25.0);
-            std::cout << "Temperature Sensor created." << std::endl;
-            double temperature = sensor.GetTemperature();
-            std::cout << "Current Temperature: " << temperature << std::endl;
-        } catch (std::invalid_argument& e) {
-            std::cerr << "Error creating temperature sensor: " << e.what() << std::endl;
-        }
+    static void TestSmartHomeSystem() {
+        SmartHomeSystem mySmartHome;
+
+        // Assuming these methods are part of the SmartHomeSystem class
+        double initialTemperature = mySmartHome.GetCurrentTemperature();
+        unsigned int initialBrightness = mySmartHome.GetBrightness();
+        bool initialSecurityStatus = mySmartHome.IsSecuritySystemArmed();
+
+        std::cout << "Initial state of the Smart Home System:" << std::endl;
+        DisplaySmartHomeState(initialTemperature, initialBrightness, initialSecurityStatus);
+
+        // Assuming this method is part of the SmartHomeSystem class
+        mySmartHome.PerformSmartHomeOperations();
+
+        // Assuming these methods are part of the SmartHomeSystem class
+        double finalTemperature = mySmartHome.GetCurrentTemperature();
+        unsigned int finalBrightness = mySmartHome.GetBrightness();
+        bool finalSecurityStatus = mySmartHome.IsSecuritySystemArmed();
+
+        std::cout << "\nFinal state of the Smart Home System:" << std::endl;
+        DisplaySmartHomeState(finalTemperature, finalBrightness, finalSecurityStatus);
     }
 
-    static void TestThermostat() {
-        try {
-            Thermostat thermostat;
-            thermostat.SetTemperature(20.0);
-            std::cout << "Thermostat set to 20.0 degrees." << std::endl;
-
-            TemperatureSensor sensor("DHT22", 22.5);
-            thermostat.AdjustTemperature(sensor);
-            std::cout << "Thermostat adjusted based on sensor data." << std::endl;
-        } catch (std::invalid_argument& e) {
-            std::cerr << "Error with thermostat operation: " << e.what() << std::endl;
-        }
-    }
-
-    static void TestLightingControl() {
-        try {
-            LightingControl lighting("LED", 60);
-            std::cout << "Lighting Control created." << std::endl;
-            lighting.AdjustBrightness(75);
-            std::cout << "Brightness adjusted to 75." << std::endl;
-        } catch (std::invalid_argument& e) {
-            std::cerr << "Error with lighting control: " << e.what() << std::endl;
-        }
-    }
-
-    static void TestSecuritySystem() {
-        try {
-            SecuritySystem security(2, false);
-            std::cout << "Security System created." << std::endl;
-            security.ArmSystem();
-            std::cout << "Security System armed." << std::endl;
-            security.DisarmSystem();
-            std::cout << "Security System disarmed." << std::endl;
-        } catch (std::invalid_argument& e) {
-            std::cerr << "Error with security system: " << e.what() << std::endl;
-        }
-    }
-
-    static void TestEntertainmentDevice() {
-        try {
-            EntertainmentDevice device("Speaker", "Audio");
-            std::cout << "Entertainment Device created." << std::endl;
-            device.PlayMedia();
-            std::cout << "Media played." << std::endl;
-            device.PauseMedia();
-            std::cout << "Media paused." << std::endl;
-        } catch (std::exception& e) {
-            std::cerr << "Error with entertainment device: " << e.what() << std::endl;
-        }
+private:
+    static void DisplaySmartHomeState(double temperature, unsigned int brightness, bool securityStatus) {
+        std::cout << "Current Temperature: " << temperature << " degrees." << std::endl;
+        std::cout << "Current Brightness: " << brightness << "." << std::endl;
+        std::cout << "Security System Status: " << (securityStatus ? "Armed" : "Disarmed") << "." << std::endl;
+        // Add more state information if needed
     }
 };
 
 int main() {
-    SmartHomeSystemTester::TestTemperatureControl();
-    SmartHomeSystemTester::TestThermostat();
-    SmartHomeSystemTester::TestLightingControl();
-    SmartHomeSystemTester::TestSecuritySystem();
-    SmartHomeSystemTester::TestEntertainmentDevice();
+    SmartHomeSystemTester::TestSmartHomeSystem();
 
     return 0;
 }
