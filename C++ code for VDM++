@@ -13,7 +13,7 @@ public:
         }
     }
 
-    double GetTemperature() {
+    double GetTemperature() const {
         return temperature;
     }
 };
@@ -30,8 +30,12 @@ public:
         currentTemperature = temp;
     }
 
-    void AdjustTemperature(TemperatureSensor& sensor) {
+    void AdjustTemperature(const TemperatureSensor& sensor) {
         currentTemperature = sensor.GetTemperature();
+    }
+
+    double GetCurrentTemperature() const {
+        return currentTemperature;
     }
 };
 
@@ -53,6 +57,10 @@ public:
         }
         brightness = b;
     }
+
+    unsigned int GetBrightness() const {
+        return brightness;
+    }
 };
 
 class SecuritySystem {
@@ -70,7 +78,13 @@ public:
     void DisarmSystem() {
         isArmed = false;
     }
+
+    bool IsArmed() const {
+        return isArmed;
+    }
 };
+
+// ... (previous code)
 
 class EntertainmentDevice {
 private:
@@ -80,12 +94,12 @@ private:
 public:
     EntertainmentDevice(const std::string& dt, const std::string& mt) : deviceType(dt), mediaType(mt) {}
 
-    void PlayMedia() {
-        // Implement play media functionality
+    void PlayMedia() const {
+        std::cout << "Playing " << mediaType << " on " << deviceType << "." << std::endl;
     }
 
-    void PauseMedia() {
-        // Implement pause media functionality
+    void PauseMedia() const {
+        std::cout << "Media paused on " << deviceType << "." << std::endl;
     }
 };
 
@@ -105,7 +119,56 @@ public:
         securitySystem(3, false),
         entertainmentDevice("Speaker", "Audio") {}
 
-    // Operations to control the smart home functionalities go here...
+    void PerformSmartHomeOperations() {
+        int choice;
+        do {
+            std::cout << "Smart Home Operations Menu:" << std::endl;
+            std::cout << "1. Set Thermostat Temperature" << std::endl;
+            std::cout << "2. Adjust Lighting Brightness" << std::endl;
+            std::cout << "3. Arm/Disarm Security System" << std::endl;
+            std::cout << "4. Play/Pause Entertainment Device" << std::endl;
+            std::cout << "0. Exit" << std::endl;
+            std::cout << "Enter your choice: ";
+            std::cin >> choice;
+
+            switch (choice) {
+                case 1: {
+                    double newTemp;
+                    std::cout << "Enter new temperature for the thermostat: ";
+                    std::cin >> newTemp;
+                    thermostat.SetTemperature(newTemp);
+                    std::cout << "Thermostat temperature set to: " << thermostat.GetCurrentTemperature() << " degrees." << std::endl;
+                    break;
+                }
+                case 2: {
+                    unsigned int newBrightness;
+                    std::cout << "Enter new brightness level for lighting control: ";
+                    std::cin >> newBrightness;
+                    lightingControl.AdjustBrightness(newBrightness);
+                    std::cout << "Brightness adjusted to: " << lightingControl.GetBrightness() << "." << std::endl;
+                    break;
+                }
+                case 3:
+                    if (securitySystem.IsArmed()) {
+                        securitySystem.DisarmSystem();
+                        std::cout << "Security system disarmed." << std::endl;
+                    } else {
+                        securitySystem.ArmSystem();
+                        std::cout << "Security system armed." << std::endl;
+                    }
+                    break;
+                case 4:
+                    entertainmentDevice.PlayMedia();
+                    // Optionally add more features for entertainment device control
+                    break;
+                case 0:
+                    std::cout << "Exiting Smart Home System." << std::endl;
+                    break;
+                default:
+                    std::cout << "Invalid choice. Please enter a valid option." << std::endl;
+            }
+        } while (choice != 0);
+    }
 };
 
 int main() {
@@ -113,7 +176,7 @@ int main() {
     SmartHomeSystem mySmartHome;
 
     // Perform smart home operations
-    // ...
+    mySmartHome.PerformSmartHomeOperations();
 
     return 0;
 }
