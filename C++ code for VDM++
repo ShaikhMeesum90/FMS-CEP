@@ -1,0 +1,119 @@
+#include <iostream>
+#include <string>
+
+class TemperatureSensor {
+private:
+    std::string sensorType;
+    double temperature;
+
+public:
+    TemperatureSensor(const std::string& st, double temp) : sensorType(st), temperature(temp) {
+        if (temp < 0 || temp > 100) {
+            throw std::invalid_argument("Temperature should be between 0 and 100.");
+        }
+    }
+
+    double GetTemperature() {
+        return temperature;
+    }
+};
+
+class Thermostat {
+private:
+    double currentTemperature;
+
+public:
+    void SetTemperature(double temp) {
+        if (temp < 0 || temp > 100) {
+            throw std::invalid_argument("Temperature should be between 0 and 100.");
+        }
+        currentTemperature = temp;
+    }
+
+    void AdjustTemperature(TemperatureSensor& sensor) {
+        currentTemperature = sensor.GetTemperature();
+    }
+};
+
+class LightingControl {
+private:
+    std::string lightType;
+    unsigned int brightness;
+
+public:
+    LightingControl(const std::string& lt, unsigned int b) : lightType(lt), brightness(b) {
+        if (b > 100) {
+            throw std::invalid_argument("Brightness should be between 0 and 100.");
+        }
+    }
+
+    void AdjustBrightness(unsigned int b) {
+        if (b > 100) {
+            throw std::invalid_argument("Brightness should be between 0 and 100.");
+        }
+        brightness = b;
+    }
+};
+
+class SecuritySystem {
+private:
+    unsigned int securityLevel;
+    bool isArmed;
+
+public:
+    SecuritySystem(unsigned int sl, bool armed) : securityLevel(sl), isArmed(armed) {}
+
+    void ArmSystem() {
+        isArmed = true;
+    }
+
+    void DisarmSystem() {
+        isArmed = false;
+    }
+};
+
+class EntertainmentDevice {
+private:
+    std::string deviceType;
+    std::string mediaType;
+
+public:
+    EntertainmentDevice(const std::string& dt, const std::string& mt) : deviceType(dt), mediaType(mt) {}
+
+    void PlayMedia() {
+        // Implement play media functionality
+    }
+
+    void PauseMedia() {
+        // Implement pause media functionality
+    }
+};
+
+class SmartHomeSystem {
+private:
+    TemperatureSensor temperatureSensor;
+    Thermostat thermostat;
+    LightingControl lightingControl;
+    SecuritySystem securitySystem;
+    EntertainmentDevice entertainmentDevice;
+
+public:
+    SmartHomeSystem() :
+        temperatureSensor("DHT22", 25.0),
+        thermostat(),
+        lightingControl("LED", 50),
+        securitySystem(3, false),
+        entertainmentDevice("Speaker", "Audio") {}
+
+    // Operations to control the smart home functionalities go here...
+};
+
+int main() {
+    // Create a SmartHomeSystem instance
+    SmartHomeSystem mySmartHome;
+
+    // Perform smart home operations
+    // ...
+
+    return 0;
+}
