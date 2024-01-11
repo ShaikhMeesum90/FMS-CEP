@@ -1,0 +1,119 @@
+class TemperatureSensor
+instance variables
+  private sensorType: seq of char;
+  private temperature: real;
+
+operations
+  public TemperatureSensor : seq of char * real ==> TemperatureSensor
+  TemperatureSensor(st, temp) ==
+    (sensorType := st;
+     temperature := temp;
+     return self)
+  pre temp >= 0 and temp <= 100;
+
+  public GetTemperature : () ==> real
+  GetTemperature() ==
+    return temperature;
+
+end TemperatureSensor
+
+class Thermostat
+instance variables
+  private currentTemperature: real;
+
+operations
+  public SetTemperature : real ==> ()
+  SetTemperature(temp) ==
+    currentTemperature := temp
+  pre temp >= 0 and temp <= 100;
+
+  public AdjustTemperature : TemperatureSensor ==> ()
+  AdjustTemperature(sensor) ==
+    currentTemperature := sensor.GetTemperature();
+
+end Thermostat
+
+class LightingControl
+instance variables
+  private lightType: seq of char;
+  private brightness: nat;
+
+operations
+  public LightingControl : seq of char * nat ==> LightingControl
+  LightingControl(lt, b) ==
+    (lightType := lt;
+     brightness := b;
+     return self);
+
+  public AdjustBrightness : nat ==> ()
+  AdjustBrightness(b) ==
+    brightness := b
+  pre b >= 0 and b <= 100;
+
+end LightingControl
+
+class SecuritySystem
+instance variables
+  private securityLevel: nat;
+  private isArmed: bool;
+
+operations
+  public SecuritySystem : nat * bool ==> SecuritySystem
+  SecuritySystem(sl, armed) ==
+    (securityLevel := sl;
+     isArmed := armed;
+     return self);
+
+  public ArmSystem : () ==> ()
+  ArmSystem() ==
+    isArmed := true;
+
+  public DisarmSystem : () ==> ()
+  DisarmSystem() ==
+    isArmed := false;
+
+end SecuritySystem
+
+class EntertainmentDevice
+instance variables
+  private deviceType: seq of char;
+  private mediaType: seq of char;
+
+operations
+  public EntertainmentDevice : seq of char * seq of char ==> EntertainmentDevice
+  EntertainmentDevice(dt, mt) ==
+    (deviceType := dt;
+     mediaType := mt;
+     return self);
+
+  public PlayMedia : () ==> ()
+  PlayMedia() ==
+    skip;
+
+  public PauseMedia : () ==> ()
+  PauseMedia() ==
+    skip;
+
+end EntertainmentDevice
+
+class SmartHomeSystem
+instance variables
+  private temperatureSensor: TemperatureSensor;
+  private thermostat: Thermostat;
+  private lightingControl: LightingControl;
+  private securitySystem: SecuritySystem;
+  private entertainmentDevice: EntertainmentDevice;
+
+operations
+  public SmartHomeSystem : () ==> SmartHomeSystem
+  SmartHomeSystem() ==
+    (temperatureSensor := new TemperatureSensor("DHT22", 25.0);
+     thermostat := new Thermostat();
+     lightingControl := new LightingControl("LED", 50);
+     securitySystem := new SecuritySystem(3, false);
+     entertainmentDevice := new EntertainmentDevice("Speaker", "Audio");
+     return self);
+
+  -- Operations to control the smart home functionalities go here...
+
+end SmartHomeSystem
