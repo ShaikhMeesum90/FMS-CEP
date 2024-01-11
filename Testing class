@@ -1,0 +1,74 @@
+class SmartHomeSystemTester {
+public:
+    static void TestTemperatureControl() {
+        try {
+            TemperatureSensor sensor("DHT22", 25.0);
+            std::cout << "Temperature Sensor created." << std::endl;
+            double temperature = sensor.GetTemperature();
+            std::cout << "Current Temperature: " << temperature << std::endl;
+        } catch (std::invalid_argument& e) {
+            std::cerr << "Error creating temperature sensor: " << e.what() << std::endl;
+        }
+    }
+
+    static void TestThermostat() {
+        try {
+            Thermostat thermostat;
+            thermostat.SetTemperature(20.0);
+            std::cout << "Thermostat set to 20.0 degrees." << std::endl;
+
+            TemperatureSensor sensor("DHT22", 22.5);
+            thermostat.AdjustTemperature(sensor);
+            std::cout << "Thermostat adjusted based on sensor data." << std::endl;
+        } catch (std::invalid_argument& e) {
+            std::cerr << "Error with thermostat operation: " << e.what() << std::endl;
+        }
+    }
+
+    static void TestLightingControl() {
+        try {
+            LightingControl lighting("LED", 60);
+            std::cout << "Lighting Control created." << std::endl;
+            lighting.AdjustBrightness(75);
+            std::cout << "Brightness adjusted to 75." << std::endl;
+        } catch (std::invalid_argument& e) {
+            std::cerr << "Error with lighting control: " << e.what() << std::endl;
+        }
+    }
+
+    static void TestSecuritySystem() {
+        try {
+            SecuritySystem security(2, false);
+            std::cout << "Security System created." << std::endl;
+            security.ArmSystem();
+            std::cout << "Security System armed." << std::endl;
+            security.DisarmSystem();
+            std::cout << "Security System disarmed." << std::endl;
+        } catch (std::invalid_argument& e) {
+            std::cerr << "Error with security system: " << e.what() << std::endl;
+        }
+    }
+
+    static void TestEntertainmentDevice() {
+        try {
+            EntertainmentDevice device("Speaker", "Audio");
+            std::cout << "Entertainment Device created." << std::endl;
+            device.PlayMedia();
+            std::cout << "Media played." << std::endl;
+            device.PauseMedia();
+            std::cout << "Media paused." << std::endl;
+        } catch (std::exception& e) {
+            std::cerr << "Error with entertainment device: " << e.what() << std::endl;
+        }
+    }
+};
+
+int main() {
+    SmartHomeSystemTester::TestTemperatureControl();
+    SmartHomeSystemTester::TestThermostat();
+    SmartHomeSystemTester::TestLightingControl();
+    SmartHomeSystemTester::TestSecuritySystem();
+    SmartHomeSystemTester::TestEntertainmentDevice();
+
+    return 0;
+}
